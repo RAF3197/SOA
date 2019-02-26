@@ -15,11 +15,11 @@ Register    idtR;
 char char_map[] =
 {
   '\0','\0','1','2','3','4','5','6',
-  '7','8','9','0','\'','¡','\0','\0',
+  '7','8','9','0','\'','ï¿½','\0','\0',
   'q','w','e','r','t','y','u','i',
   'o','p','`','+','\0','\0','a','s',
-  'd','f','g','h','j','k','l','ñ',
-  '\0','º','\0','ç','z','x','c','v',
+  'd','f','g','h','j','k','l','ï¿½',
+  '\0','ï¿½','\0','ï¿½','z','x','c','v',
   'b','n','m',',','.','-','\0','*',
   '\0','\0','\0','\0','\0','\0','\0','\0',
   '\0','\0','\0','\0','\0','\0','\0','7',
@@ -74,6 +74,8 @@ void setTrapHandler(int vector, void (*handler)(), int maxAccessibleFromPL)
 }
 
 
+void keyboard_handler();
+
 void setIdt()
 {
   /* Program interrups/exception service routines */
@@ -83,7 +85,24 @@ void setIdt()
   set_handlers();
 
   /* ADD INITIALIZATION CODE FOR INTERRUPT VECTOR */
+  setInterruptHandler(33,keyboard_handler,0);
 
   set_idt_reg(&idtR);
 }
+
+void key_service(){
+  unsigned char a = inb(0x60);
+  unsigned char b = a&0x80;
+  //break
+  if (b == 0x80){
+    char mander = char_map[a&0x7F];
+    printc_xy(70,20,mander);
+  }
+  //make 
+  else{
+    char mander = char_map[a&0x7F];
+    printc_xy(70,20,mander);
+  }
+}
+
 
