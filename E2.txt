@@ -1,0 +1,11 @@
+--Sequential:
+    Un solo proceso va haciendo la llamada al "DoService" de forma sequencial, de forma que sera el mas lento de todos ya que no explotamos el paralelismo
+
+--Unbounded concurrent:
+    En este por cada connexion creamos un proceso hijo que ejecutara el "DoService". Al ser unbounded no tenemos limite de hijos que podemos crear, por lo tanto podemos explotar al maximo el paralelismo
+
+--Bounded concurrent:
+    Por cada conexion creamos un oriceso hijo hasta un limite, a partir de ahi las nuevas connexiones deveran esperar a la muerte de un hijo, por lo tanto sera mas lento que el anterior
+
+-Thread:
+    El funcionamiento es como el Unbounded concurrent con la diferencia de que creamos un thread en vez de un hijo, teniendo asi menos overhead ya que el coste de crear un hijo es mayor que crear un thread
